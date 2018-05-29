@@ -1,13 +1,6 @@
-# UTIL EIGEN GEOMETRY
+# util_eigen_geometry
 
-![build status](https://gitlab.mrt.uni-karlsruhe.de/mrt_sim/util_eigen_geometry/badges/master/build.svg)
-![coverage report](https://gitlab.mrt.uni-karlsruhe.de/mrt_sim/util_eigen_geometry/badges/master/coverage.svg)
+Library providing utility functions for geometry using Eigen.
 
-TODO: Write a project description
-
-### [Doxygen documentation](http://mrt_sim.pages.mrt.uni-karlsruhe.de/util_eigen_geometry/doxygen/index.html)
-### [Coverage report](http://mrt_sim.pages.mrt.uni-karlsruhe.de/util_eigen_geometry/coverage/index.html)
-
-## Usage
-
-TODO: Write usage instructions
+## License
+This package is distributed under the 3-Clause BSD License, see [LICENSE](LICENSE).

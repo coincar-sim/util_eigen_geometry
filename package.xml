@@ -1,20 +1,19 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>util_eigen_geometry</name>
-  <version>0.0.0</version>
-  <description>Util geometry using Eigen</description>
+  <version>1.0</version>
+  <description>Utils for geometry using Eigen</description>
 
   <license>BSD</license>
   <maintainer email="maximilian.naumann@kit.edu">Maximilian Naumann</maintainer>
   <author email="maximilian.naumann@kit.edu">Maximilian Naumann</author>
-  <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/mrt_sim/util_eigen_geometry</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
 
   <depend>eigen</depend>
-  
+
   <export>
     <!-- Other tools can request additional information be placed here -->
   </export>
