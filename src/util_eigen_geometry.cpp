@@ -164,5 +164,9 @@ double yawFromAffine3d(const Eigen::Affine3d& pose) {
     return yawFromAffine2d(affine2dFromXYOfAffine3d(pose));
 }
 
+bool canSplitPolygonRight(const polygon_t& inputPolygon, const size_t id) {
+    return (id < inputPolygon.size() - 1);
+}
+
 
 } // namespace util_eigen_geometry

@@ -128,3 +128,8 @@ TEST_F(UtilEigenGeometryPolygons, splitPolygonRight) {
     EXPECT_DOUBLE_EQ(poly12[0].x(), poly12new[0].x());
     EXPECT_DOUBLE_EQ(poly12[0].y(), poly12new[0].y());
 }
+
+TEST_F(UtilEigenGeometryPolygons, canSplitPolygonRight) {
+    EXPECT_TRUE(canSplitPolygonRight(poly02, 1));
+    EXPECT_FALSE(canSplitPolygonRight(poly02, 2));
+}
