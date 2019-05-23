@@ -109,8 +109,8 @@ TEST_F(UtilEigenGeometryPolygons, cosineSimilarityPoseToPolygon) {
 
 
 TEST_F(UtilEigenGeometryPolygons, getClosestId) {
-    EXPECT_EQ(0, getClosestId(p0, poly02));
-    EXPECT_EQ(2, getClosestId(Eigen::Vector2d{100., 100.}, poly02));
+    EXPECT_EQ(size_t{0}, getClosestId(p0, poly02));
+    EXPECT_EQ(size_t{2}, getClosestId(Eigen::Vector2d{100., 100.}, poly02));
 }
 
 TEST_F(UtilEigenGeometryPolygons, lineStripOrientation) {
