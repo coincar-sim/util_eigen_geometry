@@ -186,5 +186,4 @@ polygon_t samplePolygon(const polygon_t& polygon, const double maxDist) {
     return ret;
 }
 
-
 } // namespace util_eigen_geometry

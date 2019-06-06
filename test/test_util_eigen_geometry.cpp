@@ -138,8 +138,8 @@ TEST_F(UtilEigenGeometryPolygons, canSplitPolygonRight) {
 
 TEST_F(UtilEigenGeometryPolygons, SamplePolygon) {
     polygon_t sampled = samplePolygon(poly02, 0.1);
-    ASSERT_GT(sampled.size(), 1);
-    for (int i = 1; i < sampled.size(); ++i) {
+    ASSERT_GT(sampled.size(), 1ul);
+    for (size_t i = 1; i < sampled.size(); ++i) {
         const auto dist = (sampled.at(i) - sampled.at(i - 1)).norm();
         EXPECT_LE(dist, 0.1);
         EXPECT_GE(dist, 0.05);
