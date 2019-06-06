@@ -46,6 +46,7 @@ size_t getClosestId(const Eigen::Vector2d& point, const polygon_t& polygon);
 double lineStripOrientation(const Eigen::Vector2d& point1, const Eigen::Vector2d& point2);
 void splitPolygonRight(const polygon_t& inputPolygon, size_t id, polygon_t& outputPolygon);
 bool canSplitPolygonRight(const polygon_t& inputPolygon, const size_t id);
+polygon_t samplePolygon(const polygon_t& polygon, const double maxDist);
 // void transformPolygon(const Eigen::Affine2d pose, const polygon_t& inputPolygon, polygon_t& outputPolygon);
 
 double positiveFloatModulo(double x, double y);
