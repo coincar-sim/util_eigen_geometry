@@ -74,6 +74,8 @@ TEST(UtilEigenGeometry, yawFromAffine3d) {
 }
 
 class UtilEigenGeometryPolygons : public ::testing::Test {
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 protected:
     UtilEigenGeometryPolygons() {
     }
@@ -132,4 +134,14 @@ TEST_F(UtilEigenGeometryPolygons, splitPolygonRight) {
 TEST_F(UtilEigenGeometryPolygons, canSplitPolygonRight) {
     EXPECT_TRUE(canSplitPolygonRight(poly02, 1));
     EXPECT_FALSE(canSplitPolygonRight(poly02, 2));
+}
+
+TEST_F(UtilEigenGeometryPolygons, SamplePolygon) {
+    polygon_t sampled = samplePolygon(poly02, 0.1);
+    ASSERT_GT(sampled.size(), 1);
+    for (int i = 1; i < sampled.size(); ++i) {
+        const auto dist = (sampled.at(i) - sampled.at(i - 1)).norm();
+        EXPECT_LE(dist, 0.1);
+        EXPECT_GE(dist, 0.05);
+    }
 }

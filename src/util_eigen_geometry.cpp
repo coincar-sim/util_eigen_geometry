@@ -168,5 +168,23 @@ bool canSplitPolygonRight(const polygon_t& inputPolygon, const size_t id) {
     return (id < inputPolygon.size() - 1);
 }
 
+polygon_t samplePolygon(const polygon_t& polygon, const double maxDist) {
+    if (polygon.size() < 2)
+        return polygon;
+    polygon_t ret;
+    for (size_t i = 1; i < polygon.size(); ++i) {
+        const auto& cur = polygon.at(i);
+        const auto& prev = polygon.at(i - 1);
+        Eigen::Vector2d delta = cur - prev;
+        auto length = delta.norm();
+        auto nSegments = static_cast<int>(std::ceil(length / maxDist));
+        for (int j = 0; j < nSegments; ++j) {
+            ret.emplace_back(prev + delta * (static_cast<double>(j) / static_cast<double>(nSegments)));
+        }
+    }
+    ret.emplace_back(polygon.back());
+    return ret;
+}
+
 
 } // namespace util_eigen_geometry
