@@ -74,6 +74,8 @@ TEST(UtilEigenGeometry, yawFromAffine3d) {
 }
 
 class UtilEigenGeometryPolygons : public ::testing::Test {
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 protected:
     UtilEigenGeometryPolygons() {
     }
