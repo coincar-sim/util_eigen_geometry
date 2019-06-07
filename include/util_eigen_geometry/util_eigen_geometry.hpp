@@ -61,6 +61,7 @@ double cosineSimilarity(const double& angle1, const double& angle2);
 double cosineSimilarity(const Eigen::Affine2d& pose, const polygon_t& polygon);
 
 Eigen::Affine2d affine2dFromXYOfAffine3d(const Eigen::Affine3d& pose);
+Eigen::Affine3d affine3dXYFromAffine2d(const Eigen::Affine2d& pose);
 
 double yawFromAffine2d(const Eigen::Affine2d& pose);
 double yawFromAffine3d(const Eigen::Affine3d& pose);

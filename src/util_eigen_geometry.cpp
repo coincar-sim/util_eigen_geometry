@@ -186,4 +186,11 @@ polygon_t samplePolygon(const polygon_t& polygon, const double maxDist) {
     return ret;
 }
 
+Eigen::Affine3d affine3dXYFromAffine2d(const Eigen::Affine2d& pose) {
+    Eigen::Affine3d pose3d = Eigen::Affine3d::Identity();
+    pose3d.linear().topLeftCorner<2, 2>() = pose.linear();
+    pose3d.translation().topRows<2>() = pose.translation();
+    return pose3d;
+}
+
 } // namespace util_eigen_geometry
