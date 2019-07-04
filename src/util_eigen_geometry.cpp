@@ -73,7 +73,7 @@ void splitPolygonRight(const polygon_t& inputPolygon, size_t id, polygon_t& outp
 
 double positiveFloatModulo(double x, double y) {
     if (std::abs(y) < 10.e-9) {
-        return x;
+        return std::abs(x);
     }
     // Result is always positive; not similar to fmod()
     return x - y * floor(x / y);
