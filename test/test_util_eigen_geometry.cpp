@@ -73,7 +73,20 @@ TEST(UtilEigenGeometry, yawFromAffine3d) {
     EXPECT_DOUBLE_EQ(-M_PI / 4., yaw);
 }
 
+TEST(UtilEigenGeometry, affine3dXYFromAffine2d) {
+    Eigen::Isometry2d tf(Eigen::Isometry2d::Identity());
+    tf.translate(Eigen::Vector2d(1, 1));
+    tf.rotate(Eigen::Rotation2Dd(M_PI_2));
+    Eigen::Affine3d tf3d = affine3dXYFromAffine2d(tf);
+    EXPECT_TRUE(tf3d.translation().isApprox(Eigen::Vector3d(1, 1, 0)));
+    Eigen::Affine3d pi2z(Eigen::Affine3d::Identity());
+    pi2z.rotate(Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitZ()));
+    EXPECT_TRUE(tf3d.rotation().isApprox(pi2z.rotation()));
+}
+
 class UtilEigenGeometryPolygons : public ::testing::Test {
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 protected:
     UtilEigenGeometryPolygons() {
     }
@@ -132,4 +145,14 @@ TEST_F(UtilEigenGeometryPolygons, splitPolygonRight) {
 TEST_F(UtilEigenGeometryPolygons, canSplitPolygonRight) {
     EXPECT_TRUE(canSplitPolygonRight(poly02, 1));
     EXPECT_FALSE(canSplitPolygonRight(poly02, 2));
+}
+
+TEST_F(UtilEigenGeometryPolygons, SamplePolygon) {
+    polygon_t sampled = addIntermediateSamplesToPolygon(poly02, 0.1);
+    ASSERT_GT(sampled.size(), 1ul);
+    for (size_t i = 1; i < sampled.size(); ++i) {
+        const auto dist = (sampled.at(i) - sampled.at(i - 1)).norm();
+        EXPECT_LE(dist, 0.1);
+        EXPECT_GE(dist, 0.05);
+    }
 }
