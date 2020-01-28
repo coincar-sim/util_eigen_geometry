@@ -84,12 +84,37 @@ TEST(UtilEigenGeometry, affine3dXYFromAffine2d) {
     EXPECT_TRUE(tf3d.rotation().isApprox(pi2z.rotation()));
 }
 
+TEST(UtilEigenGeometry, isIsometry) {
+    // Check 2d.
+    {
+        Eigen::Affine2d t = Eigen::Affine2d::Identity();
+        t.translation().setRandom();
+
+        t.linear() = Eigen::Rotation2Dd(0.34).toRotationMatrix();
+        EXPECT_TRUE(isIsometry(t));
+
+        t(0, 0) = std::abs(t(0, 0)) + 5.0;
+        EXPECT_FALSE(isIsometry(t));
+    }
+
+    // Check 3d.
+    {
+        Eigen::Affine3d t = Eigen::Affine3d::Identity();
+        t.translation().setRandom();
+
+        t.linear() = Eigen::AngleAxisd(0.3, Eigen::Vector3d{1.0, -0.2, 1.0}.normalized()).toRotationMatrix();
+        EXPECT_TRUE(isIsometry(t));
+
+        t(0, 0) = std::abs(t(0, 0)) + 5.0;
+        EXPECT_FALSE(isIsometry(t));
+    }
+}
+
 class UtilEigenGeometryPolygons : public ::testing::Test {
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 protected:
-    UtilEigenGeometryPolygons() {
-    }
+    UtilEigenGeometryPolygons() = default;
 
     Eigen::Vector2d p0{0., 0.};
     Eigen::Vector2d p1{1., 1.};
