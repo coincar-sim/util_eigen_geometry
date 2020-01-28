@@ -92,10 +92,14 @@ double angleDifference(const double& targetAngle, const double& sourceAngle) {
     return normalizeAngleRadians(angleDiff);
 }
 
-
 double angleDifference(const Eigen::Affine2d& pose, const polygon_t& polygon) {
+    assert(isIsometry(pose));
+    return angleDifference(Eigen::Isometry2d{pose.matrix()}, polygon);
+}
+
+double angleDifference(const Eigen::Isometry2d& pose, const polygon_t& polygon) {
     Eigen::Vector2d point = pose.translation();
-    double pointAngle = yawFromAffine2d(pose);
+    double pointAngle = yawFromIsometry2d(pose);
     size_t i = getClosestId(point, polygon);
 
     if (i == 0) {
@@ -126,8 +130,13 @@ double cosineSimilarity(const double& angle1, const double& angle2) {
 }
 
 double cosineSimilarity(const Eigen::Affine2d& pose, const polygon_t& polygon) {
+    assert(isIsometry(pose));
+    return cosineSimilarity(Eigen::Isometry2d{pose.matrix()}, polygon);
+}
+
+double cosineSimilarity(const Eigen::Isometry2d& pose, const polygon_t& polygon) {
     Eigen::Vector2d point = pose.translation();
-    double pointAngle = yawFromAffine2d(pose);
+    double pointAngle = yawFromIsometry2d(pose);
     size_t i = getClosestId(point, polygon);
 
     if (i == 0) {
@@ -149,19 +158,35 @@ double cosineSimilarity(const Eigen::Affine2d& pose, const polygon_t& polygon) {
 }
 
 Eigen::Affine2d affine2dFromXYOfAffine3d(const Eigen::Affine3d& pose) {
-    Eigen::Affine2d pose2d =
-        Eigen::Translation2d(pose.translation().topRows<2>()) * pose.linear().topLeftCorner<2, 2>();
+    assert(isIsometry(pose));
+    return isometry2dFromXYOfIsometry3d(Eigen::Isometry3d{pose.matrix()});
+}
+
+Eigen::Isometry2d isometry2dFromXYOfIsometry3d(const Eigen::Isometry3d& pose) {
+    Eigen::Isometry2d pose2d = Eigen::Isometry2d::Identity();
+    pose2d.linear() = pose.linear().topLeftCorner<2, 2>();
+    pose2d.translation() = pose.translation().topRows<2>();
     return pose2d;
 }
 
 double yawFromAffine2d(const Eigen::Affine2d& pose) {
+    assert(isIsometry(pose));
+    return yawFromIsometry2d(Eigen::Isometry2d{pose.matrix()});
+}
+
+double yawFromIsometry2d(const Eigen::Isometry2d& pose) {
     Eigen::Rotation2D<double> rot;
     rot.fromRotationMatrix(pose.linear());
     return rot.smallestAngle();
 }
 
 double yawFromAffine3d(const Eigen::Affine3d& pose) {
-    return yawFromAffine2d(affine2dFromXYOfAffine3d(pose));
+    assert(isIsometry(pose));
+    return yawFromIsometry3d(Eigen::Isometry3d{pose.matrix()});
+}
+
+double yawFromIsometry3d(const Eigen::Isometry3d& pose) {
+    return yawFromIsometry2d(isometry2dFromXYOfIsometry3d(pose));
 }
 
 bool canSplitPolygonRight(const polygon_t& inputPolygon, const size_t id) {
@@ -187,7 +212,12 @@ polygon_t addIntermediateSamplesToPolygon(const polygon_t& polygon, const double
 }
 
 Eigen::Affine3d affine3dXYFromAffine2d(const Eigen::Affine2d& pose) {
-    Eigen::Affine3d pose3d = Eigen::Affine3d::Identity();
+    assert(isIsometry(pose));
+    return isometry3dXYFromIsometry2d(Eigen::Isometry2d{pose.matrix()});
+}
+
+Eigen::Isometry3d isometry3dXYFromIsometry2d(const Eigen::Isometry2d& pose) {
+    Eigen::Isometry3d pose3d = Eigen::Isometry3d::Identity();
     pose3d.linear().topLeftCorner<2, 2>() = pose.linear();
     pose3d.translation().topRows<2>() = pose.translation();
     return pose3d;
