@@ -37,8 +37,8 @@
 namespace util_eigen_quadratic_matrices {
 /* Extend convenience typedefs of predefined Eigen::Matrix.
  */
-typedef Eigen::Matrix<double, 6, 6> Matrix6d;
-typedef Eigen::Matrix<double, 6, 1> Vector6d;
+using Matrix6d = Eigen::Matrix<double, 6, 6>;
+using Vector6d = Eigen::Matrix<double, 6, 1>;
 
 /** @brief Removes the i-th row and the i-th column from a symmetric matrix. Specialization for dynamic-size matrices.
  * @param[in] MxM quadratic input Matrix
@@ -77,8 +77,8 @@ inline Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> removeRowCol(
 /** @brief Checks if a quadratic matrix is symmetric or not.
  * @param[in] MxM quadratic input Matrix
  * @return true if the matrix is symmetric or false otherwise.*/
-template <typename T, int size>
-inline bool isSymmetric(const Eigen::Matrix<T, size, size>& input) {
+template <typename T, int Size>
+inline bool isSymmetric(const Eigen::Matrix<T, Size, Size>& input) {
     if (input.rows() != input.cols()) {
         throw std::invalid_argument("Method is only defined for quadratic matrices.");
     }
@@ -93,15 +93,15 @@ inline bool isSymmetric(const Eigen::Matrix<T, size, size>& input) {
 /** @brief Checks if a quadratic matrix is positive (semi) definite or not.
  * @param[in] MxM quadratic input Matrix
  * @return true if the matrix is positive (semi) definite or false otherwise.*/
-template <typename T, int size>
-inline bool isPosSemiDefinit(const Eigen::Matrix<T, size, size>& input) {
+template <typename T, int Size>
+inline bool isPosSemiDefinit(const Eigen::Matrix<T, Size, Size>& input) {
     if (input.rows() != input.cols()) {
         throw std::invalid_argument("Method is only defined for quadratic matrices.");
     }
     if (input.rows() == 0) {
         return false; // special case for 0D-zero-elements Matrix. Prevents Seg-Fault.
     }
-    Eigen::LDLT<Eigen::Matrix<T, size, size>> chol(input);
+    Eigen::LDLT<Eigen::Matrix<T, Size, Size>> chol(input);
     return (chol.isPositive());
 }
 } // namespace util_eigen_quadratic_matrices

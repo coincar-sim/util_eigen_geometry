@@ -114,8 +114,7 @@ class UtilEigenGeometryPolygons : public ::testing::Test {
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 protected:
-    UtilEigenGeometryPolygons() {
-    }
+    UtilEigenGeometryPolygons() = default;
 
     Eigen::Vector2d p0{0., 0.};
     Eigen::Vector2d p1{1., 1.};

@@ -39,8 +39,11 @@
 
 namespace util_eigen_geometry {
 
-typedef std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d>> polygon_t;
-typedef std::shared_ptr<polygon_t> polygon_ptr_t;
+// Cannot change names due to backward compatibility.
+// NOLINTNEXTLINE(readability-identifier-naming)
+using polygon_t = std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d>>;
+// NOLINTNEXTLINE(readability-identifier-naming)
+using polygon_ptr_t = std::shared_ptr<polygon_t>;
 
 size_t getClosestId(const Eigen::Vector2d& point, const polygon_t& polygon);
 double lineStripOrientation(const Eigen::Vector2d& point1, const Eigen::Vector2d& point2);
