@@ -34,46 +34,49 @@
 
 using namespace util_eigen_quadratic_matrices;
 
-using eigen_covariance_t = Matrix6d;
+using EigenCovarianceT = Matrix6d;
 
 
 class UtilEigenQuadraticMatrices : public ::testing::Test {
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
 protected:
     UtilEigenQuadraticMatrices() {
-        covNonSetValuesEigen_ = eigen_covariance_t::Identity(6, 6) * -1;
-        covGroundTruthValuesEigen_ = eigen_covariance_t::Zero(6, 6);
-        covArbitraryDiagValuesValidEigen_ << 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0,
+        covNonSetValuesEigen = EigenCovarianceT::Identity(6, 6) * -1;
+        covGroundTruthValuesEigen = EigenCovarianceT::Zero(6, 6);
+        covArbitraryDiagValuesValidEigen << 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0,
             0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.0;
-        covArbitraryValuesValidEigen_ << 11, 12, 13, 14, 15, 16, 12, 22, 23, 24, 25, 26, 13, 23, 33, 34, 35, 36, 14, 24,
+        covArbitraryValuesValidEigen << 11, 12, 13, 14, 15, 16, 12, 22, 23, 24, 25, 26, 13, 23, 33, 34, 35, 36, 14, 24,
             34, 44, 45, 46, 15, 25, 35, 45, 55, 56, 16, 26, 36, 46, 56, 66;
-        covInvalidUnsymmetricEigen_ << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+        covInvalidUnsymmetricEigen << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
             23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36;
-        covInvalidBelowZeroEigen_ << -11, 12, 13, 14, 15, 16, 12, 22, 23, 24, 25, 26, 13, 23, 33, 34, 35, 36, 14, 24,
+        covInvalidBelowZeroEigen << -11, 12, 13, 14, 15, 16, 12, 22, 23, 24, 25, 26, 13, 23, 33, 34, 35, 36, 14, 24,
             34, 44, 45, 46, 15, 25, 35, 45, 55, 56, 16, 26, 36, 46, 56, 66;
     }
 
-    eigen_covariance_t covNonSetValuesEigen_;
-    eigen_covariance_t covGroundTruthValuesEigen_;
-    eigen_covariance_t covArbitraryDiagValuesValidEigen_;
-    eigen_covariance_t covArbitraryValuesValidEigen_;
-    eigen_covariance_t covInvalidUnsymmetricEigen_;
-    eigen_covariance_t covInvalidBelowZeroEigen_;
+    EigenCovarianceT covNonSetValuesEigen;
+    EigenCovarianceT covGroundTruthValuesEigen;
+    EigenCovarianceT covArbitraryDiagValuesValidEigen;
+    EigenCovarianceT covArbitraryValuesValidEigen;
+    EigenCovarianceT covInvalidUnsymmetricEigen;
+    EigenCovarianceT covInvalidBelowZeroEigen;
 };
 
 TEST_F(UtilEigenQuadraticMatrices, covarianceMatrixIsSymmetric) {
-    EXPECT_TRUE(isSymmetric(covNonSetValuesEigen_));
-    EXPECT_TRUE(isSymmetric(covGroundTruthValuesEigen_));
-    EXPECT_TRUE(isSymmetric(covArbitraryDiagValuesValidEigen_));
-    EXPECT_TRUE(isSymmetric(covArbitraryValuesValidEigen_));
-    EXPECT_FALSE(isSymmetric(covInvalidUnsymmetricEigen_));
-    EXPECT_TRUE(isSymmetric(covInvalidBelowZeroEigen_));
+    EXPECT_TRUE(isSymmetric(covNonSetValuesEigen));
+    EXPECT_TRUE(isSymmetric(covGroundTruthValuesEigen));
+    EXPECT_TRUE(isSymmetric(covArbitraryDiagValuesValidEigen));
+    EXPECT_TRUE(isSymmetric(covArbitraryValuesValidEigen));
+    EXPECT_FALSE(isSymmetric(covInvalidUnsymmetricEigen));
+    EXPECT_TRUE(isSymmetric(covInvalidBelowZeroEigen));
 }
 
 TEST_F(UtilEigenQuadraticMatrices, covarianceMatrixIsPosDefinit) {
-    EXPECT_FALSE(isPosSemiDefinit(covNonSetValuesEigen_));
-    EXPECT_TRUE(isPosSemiDefinit(covGroundTruthValuesEigen_));
-    EXPECT_TRUE(isPosSemiDefinit(covArbitraryDiagValuesValidEigen_));
-    EXPECT_TRUE(isPosSemiDefinit(covArbitraryValuesValidEigen_));
-    EXPECT_FALSE(isPosSemiDefinit(covInvalidUnsymmetricEigen_));
-    EXPECT_FALSE(isPosSemiDefinit(covInvalidBelowZeroEigen_));
+    EXPECT_FALSE(isPosSemiDefinit(covNonSetValuesEigen));
+    EXPECT_TRUE(isPosSemiDefinit(covGroundTruthValuesEigen));
+    EXPECT_TRUE(isPosSemiDefinit(covArbitraryDiagValuesValidEigen));
+    EXPECT_TRUE(isPosSemiDefinit(covArbitraryValuesValidEigen));
+    EXPECT_FALSE(isPosSemiDefinit(covInvalidUnsymmetricEigen));
+    EXPECT_FALSE(isPosSemiDefinit(covInvalidBelowZeroEigen));
 }
