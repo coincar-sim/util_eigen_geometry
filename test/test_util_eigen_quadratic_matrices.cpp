@@ -55,12 +55,13 @@ protected:
             44, 45, 46, 15, 25, 35, 45, 55, 56, 16, 26, 36, 46, 56, 66;
     }
 
-    EigenCovarianceT covNonSetValuesEigen;
-    EigenCovarianceT covGroundTruthValuesEigen;
-    EigenCovarianceT covArbitraryDiagValuesValidEigen;
-    EigenCovarianceT covArbitraryValuesValidEigen;
-    EigenCovarianceT covInvalidUnsymmetricEigen;
-    EigenCovarianceT covInvalidBelowZeroEigen;
+    EigenCovarianceT covNonSetValuesEigen;      // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    EigenCovarianceT covGroundTruthValuesEigen; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    EigenCovarianceT
+        covArbitraryDiagValuesValidEigen;          // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    EigenCovarianceT covArbitraryValuesValidEigen; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    EigenCovarianceT covInvalidUnsymmetricEigen;   // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    EigenCovarianceT covInvalidBelowZeroEigen;     // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
 TEST_F(UtilEigenQuadraticMatrices, covarianceMatrixIsSymmetric) {
