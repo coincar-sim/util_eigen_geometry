@@ -115,9 +115,8 @@ double angleDifference(const Eigen::Isometry2d& pose, const polygon_t& polygon) 
 
     if (std::abs(angleDiff1) > std::abs(angleDiff2)) {
         return angleDiff2;
-    } else {
-        return angleDiff1;
     }
+    return angleDiff1;
 }
 
 double angleDifferenceDegrees(const double& targetAngle, const double& sourceAngle) {
@@ -152,9 +151,8 @@ double cosineSimilarity(const Eigen::Isometry2d& pose, const polygon_t& polygon)
 
     if (cosSim1 > cosSim2) {
         return cosSim1;
-    } else {
-        return cosSim2;
     }
+    return cosSim2;
 }
 
 Eigen::Affine2d affine2dFromXYOfAffine3d(const Eigen::Affine3d& pose) {
