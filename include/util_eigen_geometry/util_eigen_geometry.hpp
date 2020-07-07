@@ -48,8 +48,8 @@ using polygon_ptr_t = std::shared_ptr<polygon_t>;
 size_t getClosestId(const Eigen::Vector2d& point, const polygon_t& polygon);
 double lineStripOrientation(const Eigen::Vector2d& point1, const Eigen::Vector2d& point2);
 void splitPolygonRight(const polygon_t& inputPolygon, size_t id, polygon_t& outputPolygon);
-bool canSplitPolygonRight(const polygon_t& inputPolygon, const size_t id);
-polygon_t addIntermediateSamplesToPolygon(const polygon_t& polygon, const double maxSampleDist);
+bool canSplitPolygonRight(const polygon_t& inputPolygon, size_t id);
+polygon_t addIntermediateSamplesToPolygon(const polygon_t& polygon, double maxSampleDist);
 // void transformPolygon(const Eigen::Affine2d pose, const polygon_t& inputPolygon, polygon_t& outputPolygon);
 
 double positiveFloatModulo(double x, double y);

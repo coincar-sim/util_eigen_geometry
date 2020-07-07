@@ -116,13 +116,13 @@ public:
 protected:
     UtilEigenGeometryPolygons() = default;
 
-    Eigen::Vector2d p0{0., 0.};
-    Eigen::Vector2d p1{1., 1.};
-    Eigen::Vector2d p2{2., 2.};
+    Eigen::Vector2d p0{0., 0.}; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    Eigen::Vector2d p1{1., 1.}; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    Eigen::Vector2d p2{2., 2.}; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
-    polygon_t poly01{p0, p1};
-    polygon_t poly12{p1, p2};
-    polygon_t poly02{p0, p1, p2};
+    polygon_t poly01{p0, p1};     // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    polygon_t poly12{p1, p2};     // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    polygon_t poly02{p0, p1, p2}; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
 TEST_F(UtilEigenGeometryPolygons, angleDifferencePoseToPolygon) {
