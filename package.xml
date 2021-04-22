@@ -1,11 +1,11 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='utf-8'?>
 <package format="2">
   <name>util_eigen_geometry</name>
   <version>1.0.0</version>
   <description>Utils for geometry using Eigen</description>
 
   <license>BSD</license>
-  <maintainer email="maximilian.naumann@kit.edu">Maximilian Naumann</maintainer>
+  <maintainer email="lingguang.wang@kit.edu">Lingguang Wang</maintainer>
   <author email="maximilian.naumann@kit.edu">Maximilian Naumann</author>
 
   <buildtool_depend>catkin</buildtool_depend>
