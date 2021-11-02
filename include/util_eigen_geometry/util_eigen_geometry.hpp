@@ -57,6 +57,7 @@ double normalizeAngleDegrees(double x);
 double normalizeAngleRadians(double x);
 
 double angleDifference(const double& targetAngle, const double& sourceAngle);
+double angleDifference(const Eigen::Vector2d& targetVector, const Eigen::Vector2d& sourceVector);
 double angleDifference(const Eigen::Affine2d& pose, const polygon_t& polygon);
 double angleDifference(const Eigen::Isometry2d& pose, const polygon_t& polygon);
 double angleDifferenceDegrees(const double& targetAngle, const double& sourceAngle);
