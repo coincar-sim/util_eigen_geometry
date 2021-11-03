@@ -100,6 +100,15 @@ double angleDifference(const Eigen::Vector2d& targetVector, const Eigen::Vector2
     return normalizeAngleRadians(angleError);
 }
 
+double angleDifference(const Eigen::Affine2d& targetPose, const Eigen::Vector2d& sourceVector) {
+    assert(isIsometry(targetPose));
+    return angleDifference(Eigen::Isometry2d{targetPose.matrix()}, sourceVector);
+}
+
+double angleDifference(const Eigen::Isometry2d& targetPose, const Eigen::Vector2d& sourceVector) {
+    return angleDifference(yawFromIsometry2d(targetPose), yawFromVector(sourceVector));
+}
+
 double angleDifference(const Eigen::Affine2d& pose, const polygon_t& polygon) {
     assert(isIsometry(pose));
     return angleDifference(Eigen::Isometry2d{pose.matrix()}, polygon);

@@ -181,6 +181,26 @@ TEST_F(UtilEigenGeometryOrientationVector, yawFromVector) {
     EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vector180));
 }
 
+TEST_F(UtilEigenGeometryOrientationVector, angleDifferenceIsometryToVector) {
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry_180, vector0));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, angleDifference(isometry_135, vector0));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(isometry_90, vector0));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, angleDifference(isometry_45, vector0));
+    EXPECT_DOUBLE_EQ(0., angleDifference(isometry0, vector0));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, angleDifference(isometry45, vector0));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(isometry90, vector0));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, angleDifference(isometry135, vector0));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry180, vector0));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry_135, vector45));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, angleDifference(isometry90, vector45));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry0, vector_180));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(isometry0, vector_90));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(isometry0, vector90));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry0, vector180));
+}
+
 TEST_F(UtilEigenGeometryOrientationVector, angleDifferenceVectorToVector) {
     EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector_180, vector0));
     EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, angleDifference(vector_135, vector0));
