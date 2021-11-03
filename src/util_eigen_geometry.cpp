@@ -163,6 +163,16 @@ double cosineSimilarity(const Eigen::Isometry2d& pose, const polygon_t& polygon)
     return cosSim2;
 }
 
+Eigen::Isometry2d isometry2dFromVector(const Eigen::Vector2d& orientationVector) {
+    Eigen::Isometry2d isometry{Eigen::Isometry2d::Identity()};
+    return isometry.rotate(yawFromVector(orientationVector));
+}
+
+Eigen::Vector2d vectorFromIsometry2d(const Eigen::Isometry2d& pose) {
+    Eigen::Vector2d vector{Eigen::Vector2d::UnitX()};
+    return pose.rotation() * vector;
+}
+
 Eigen::Affine2d affine2dFromXYOfAffine3d(const Eigen::Affine3d& pose) {
     assert(isIsometry(pose));
     return isometry2dFromXYOfIsometry3d(Eigen::Isometry3d{pose.matrix()});

@@ -66,6 +66,8 @@ double cosineSimilarity(const double& angle1, const double& angle2);
 double cosineSimilarity(const Eigen::Affine2d& pose, const polygon_t& polygon);
 double cosineSimilarity(const Eigen::Isometry2d& pose, const polygon_t& polygon);
 
+Eigen::Isometry2d isometry2dFromVector(const Eigen::Vector2d& orientationVector);
+Eigen::Vector2d vectorFromIsometry2d(const Eigen::Isometry2d& pose);
 Eigen::Affine2d affine2dFromXYOfAffine3d(const Eigen::Affine3d& pose);
 Eigen::Isometry2d isometry2dFromXYOfIsometry3d(const Eigen::Isometry3d& pose);
 Eigen::Affine3d affine3dXYFromAffine2d(const Eigen::Affine2d& pose);

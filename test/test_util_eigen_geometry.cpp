@@ -114,7 +114,17 @@ class UtilEigenGeometryOrientationVector : public ::testing::Test {
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 protected:
-    UtilEigenGeometryOrientationVector() = default;
+    UtilEigenGeometryOrientationVector() {
+        isometry_180 = isometry2dFromVector(vector_180);
+        isometry_135 = isometry2dFromVector(vector_135);
+        isometry_90 = isometry2dFromVector(vector_90);
+        isometry_45 = isometry2dFromVector(vector_45);
+        isometry0 = isometry2dFromVector(vector0);
+        isometry45 = isometry2dFromVector(vector45);
+        isometry90 = isometry2dFromVector(vector90);
+        isometry135 = isometry2dFromVector(vector135);
+        isometry180 = isometry2dFromVector(vector180);
+    };
 
     Eigen::Vector2d vector_180{-1., 0.};  // NOLINT
     Eigen::Vector2d vector_135{-1., -1.}; // NOLINT
@@ -125,7 +135,39 @@ protected:
     Eigen::Vector2d vector90{0., 1.};     // NOLINT
     Eigen::Vector2d vector135{-1., 1.};   // NOLINT
     Eigen::Vector2d vector180{-1., 0.};   // NOLINT
+
+    Eigen::Isometry2d isometry_180; // NOLINT
+    Eigen::Isometry2d isometry_135; // NOLINT
+    Eigen::Isometry2d isometry_90;  // NOLINT
+    Eigen::Isometry2d isometry_45;  // NOLINT
+    Eigen::Isometry2d isometry0;    // NOLINT
+    Eigen::Isometry2d isometry45;   // NOLINT
+    Eigen::Isometry2d isometry90;   // NOLINT
+    Eigen::Isometry2d isometry135;  // NOLINT
+    Eigen::Isometry2d isometry180;  // NOLINT
 };
+
+TEST_F(UtilEigenGeometryOrientationVector, isometry2dToAndFromVector) {
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromIsometry2d(isometry_180));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, yawFromIsometry2d(isometry_135));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, yawFromIsometry2d(isometry_90));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, yawFromIsometry2d(isometry_45));
+    EXPECT_DOUBLE_EQ(0., yawFromIsometry2d(isometry0));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, yawFromIsometry2d(isometry45));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, yawFromIsometry2d(isometry90));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, yawFromIsometry2d(isometry135));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromIsometry2d(isometry180));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_180)));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_135)));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_90)));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_45)));
+    EXPECT_DOUBLE_EQ(0., yawFromVector(vectorFromIsometry2d(isometry0)));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry45)));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry90)));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry135)));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry180)));
+}
 
 TEST_F(UtilEigenGeometryOrientationVector, yawFromVector) {
     EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vector_180));
