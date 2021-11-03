@@ -110,6 +110,29 @@ TEST(UtilEigenGeometry, isIsometry) {
     }
 }
 
+TEST(UtilEigenGeometry, angleDifferenceVectorToVector) {
+
+    Eigen::Vector2d vector_180{-1., 0.};  // NOLINT
+    Eigen::Vector2d vector_135{-1., -1.}; // NOLINT
+    Eigen::Vector2d vector_90{0., -1.};   // NOLINT
+    Eigen::Vector2d vector_45{1., -1.};   // NOLINT
+    Eigen::Vector2d vector0{1., 0};
+    Eigen::Vector2d vector45{1., 1.};
+    Eigen::Vector2d vector90{0., 1.};
+    Eigen::Vector2d vector135{-1., 1.};
+    Eigen::Vector2d vector180{-1., 0.};
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector_180, vector0));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, angleDifference(vector_135, vector0));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(vector_90, vector0));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, angleDifference(vector_45, vector0));
+    EXPECT_DOUBLE_EQ(0., angleDifference(vector0, vector0));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, angleDifference(vector45, vector0));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(vector90, vector0));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, angleDifference(vector135, vector0));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector180, vector0));
+}
+
 class UtilEigenGeometryPolygons : public ::testing::Test {
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

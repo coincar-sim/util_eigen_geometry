@@ -92,6 +92,14 @@ double angleDifference(const double& targetAngle, const double& sourceAngle) {
     return normalizeAngleRadians(angleDiff);
 }
 
+double angleDifference(const Eigen::Vector2d& targetVector, const Eigen::Vector2d& sourceVector) {
+    const auto source = sourceVector.normalized();
+    const auto target = targetVector.normalized();
+    const double angleError = std::atan2(source.x() * target.y() - source.y() * target.x(), source.dot(target));
+
+    return normalizeAngleRadians(angleError);
+}
+
 double angleDifference(const Eigen::Affine2d& pose, const polygon_t& polygon) {
     assert(isIsometry(pose));
     return angleDifference(Eigen::Isometry2d{pose.matrix()}, polygon);
