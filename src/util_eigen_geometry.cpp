@@ -175,6 +175,10 @@ Eigen::Isometry2d isometry2dFromXYOfIsometry3d(const Eigen::Isometry3d& pose) {
     return pose2d;
 }
 
+double yawFromVector(const Eigen::Vector2d& orientationVector) {
+    return normalizeAngleRadians(std::atan2(orientationVector.y(), orientationVector.x()));
+}
+
 double yawFromAffine2d(const Eigen::Affine2d& pose) {
     assert(isIsometry(pose));
     return yawFromIsometry2d(Eigen::Isometry2d{pose.matrix()});

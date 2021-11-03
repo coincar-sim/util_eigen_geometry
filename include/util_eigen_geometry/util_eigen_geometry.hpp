@@ -71,6 +71,7 @@ Eigen::Isometry2d isometry2dFromXYOfIsometry3d(const Eigen::Isometry3d& pose);
 Eigen::Affine3d affine3dXYFromAffine2d(const Eigen::Affine2d& pose);
 Eigen::Isometry3d isometry3dXYFromIsometry2d(const Eigen::Isometry2d& pose);
 
+double yawFromVector(const Eigen::Vector2d& orientationVector);
 double yawFromAffine2d(const Eigen::Affine2d& pose);
 double yawFromIsometry2d(const Eigen::Isometry2d& pose);
 double yawFromAffine3d(const Eigen::Affine3d& pose);

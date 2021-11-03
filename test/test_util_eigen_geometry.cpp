@@ -127,6 +127,18 @@ protected:
     Eigen::Vector2d vector180{-1., 0.};   // NOLINT
 };
 
+TEST_F(UtilEigenGeometryOrientationVector, yawFromVector) {
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vector_180));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, yawFromVector(vector_135));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, yawFromVector(vector_90));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, yawFromVector(vector_45));
+    EXPECT_DOUBLE_EQ(0., yawFromVector(vector0));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, yawFromVector(vector45));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, yawFromVector(vector90));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, yawFromVector(vector135));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vector180));
+}
+
 TEST_F(UtilEigenGeometryOrientationVector, angleDifferenceVectorToVector) {
     EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector_180, vector0));
     EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, angleDifference(vector_135, vector0));
