@@ -211,6 +211,14 @@ TEST_F(UtilEigenGeometryOrientationVector, angleDifferenceVectorToVector) { // N
     EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(vector90, vector0));
     EXPECT_DOUBLE_EQ(3. / 4. * M_PI, angleDifference(vector135, vector0));
     EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector180, vector0));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector_135, vector45));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, angleDifference(vector90, vector45));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector0, vector_180));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(vector0, vector_90));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(vector0, vector90));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector0, vector180));
 }
 
 class UtilEigenGeometryPolygons : public ::testing::Test {
