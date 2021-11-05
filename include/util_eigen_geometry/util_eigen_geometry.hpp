@@ -58,6 +58,8 @@ double normalizeAngleRadians(double x);
 
 double angleDifference(const double& targetAngle, const double& sourceAngle);
 double angleDifference(const Eigen::Vector2d& targetVector, const Eigen::Vector2d& sourceVector);
+double angleDifference(const Eigen::Affine2d& targetPose, const Eigen::Vector2d& sourceVector);
+double angleDifference(const Eigen::Isometry2d& targetPose, const Eigen::Vector2d& sourceVector);
 double angleDifference(const Eigen::Affine2d& pose, const polygon_t& polygon);
 double angleDifference(const Eigen::Isometry2d& pose, const polygon_t& polygon);
 double angleDifferenceDegrees(const double& targetAngle, const double& sourceAngle);
@@ -66,11 +68,14 @@ double cosineSimilarity(const double& angle1, const double& angle2);
 double cosineSimilarity(const Eigen::Affine2d& pose, const polygon_t& polygon);
 double cosineSimilarity(const Eigen::Isometry2d& pose, const polygon_t& polygon);
 
+Eigen::Isometry2d isometry2dFromVector(const Eigen::Vector2d& orientationVector);
+Eigen::Vector2d vectorFromIsometry2d(const Eigen::Isometry2d& pose);
 Eigen::Affine2d affine2dFromXYOfAffine3d(const Eigen::Affine3d& pose);
 Eigen::Isometry2d isometry2dFromXYOfIsometry3d(const Eigen::Isometry3d& pose);
 Eigen::Affine3d affine3dXYFromAffine2d(const Eigen::Affine2d& pose);
 Eigen::Isometry3d isometry3dXYFromIsometry2d(const Eigen::Isometry2d& pose);
 
+double yawFromVector(const Eigen::Vector2d& orientationVector);
 double yawFromAffine2d(const Eigen::Affine2d& pose);
 double yawFromIsometry2d(const Eigen::Isometry2d& pose);
 double yawFromAffine3d(const Eigen::Affine3d& pose);

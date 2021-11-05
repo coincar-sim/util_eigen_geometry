@@ -35,7 +35,7 @@
 using namespace util_eigen_geometry;
 
 
-TEST(UtilEigenGeometry, positiveFloatModulo) {
+TEST(UtilEigenGeometry, positiveFloatModulo) { // NOLINT
     EXPECT_DOUBLE_EQ(0., positiveFloatModulo(0., 0.)) << "float modulo of (0.,0.) is defined to be zero";
 
     EXPECT_DOUBLE_EQ(0., positiveFloatModulo(10., 1.));
@@ -45,24 +45,24 @@ TEST(UtilEigenGeometry, positiveFloatModulo) {
     EXPECT_DOUBLE_EQ(5., positiveFloatModulo(35., 10.));
 }
 
-TEST(UtilEigenGeometry, angleDifferenceDouble) {
+TEST(UtilEigenGeometry, angleDifferenceDouble) { // NOLINT
     EXPECT_NEAR(M_PI / 4., angleDifference(123. + M_PI / 4., 123.), 10.e-9);
     EXPECT_NEAR(-M_PI / 4., angleDifference(123. - M_PI / 4., 123.), 10.e-9);
 }
 
 
-TEST(UtilEigenGeometry, angleDifferenceDegrees) {
+TEST(UtilEigenGeometry, angleDifferenceDegrees) { // NOLINT
     EXPECT_DOUBLE_EQ(40., angleDifferenceDegrees(400., 360.));
     EXPECT_DOUBLE_EQ(-40., angleDifferenceDegrees(400., 440.));
 }
 
-TEST(UtilEigenGeometry, cosineSimilarityDouble) {
+TEST(UtilEigenGeometry, cosineSimilarityDouble) { // NOLINT
     EXPECT_DOUBLE_EQ(1., cosineSimilarity(360., 360.));
     EXPECT_DOUBLE_EQ(cos(40.), cosineSimilarity(400., 360.));
     EXPECT_DOUBLE_EQ(cos(-40.), cosineSimilarity(400., 440.));
 }
 
-TEST(UtilEigenGeometry, yawFromAffine3d) {
+TEST(UtilEigenGeometry, yawFromAffine3d) { // NOLINT
     Eigen::Isometry3d transformation{Eigen::Isometry3d::Identity()};
     transformation.rotate(Eigen::AngleAxisd(M_PI / 4., Eigen::Vector3d::UnitZ()));
     double yaw = yawFromAffine3d(transformation);
@@ -73,7 +73,7 @@ TEST(UtilEigenGeometry, yawFromAffine3d) {
     EXPECT_DOUBLE_EQ(-M_PI / 4., yaw);
 }
 
-TEST(UtilEigenGeometry, affine3dXYFromAffine2d) {
+TEST(UtilEigenGeometry, affine3dXYFromAffine2d) { // NOLINT
     Eigen::Isometry2d tf(Eigen::Isometry2d::Identity());
     tf.translate(Eigen::Vector2d(1, 1));
     tf.rotate(Eigen::Rotation2Dd(M_PI_2));
@@ -84,7 +84,7 @@ TEST(UtilEigenGeometry, affine3dXYFromAffine2d) {
     EXPECT_TRUE(tf3d.rotation().isApprox(pi2z.rotation()));
 }
 
-TEST(UtilEigenGeometry, isIsometry) {
+TEST(UtilEigenGeometry, isIsometry) { // NOLINT
     // Check 2d.
     {
         Eigen::Affine2d t = Eigen::Affine2d::Identity();
@@ -110,18 +110,98 @@ TEST(UtilEigenGeometry, isIsometry) {
     }
 }
 
-TEST(UtilEigenGeometry, angleDifferenceVectorToVector) {
+class UtilEigenGeometryOrientationVector : public ::testing::Test {
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+protected:
+    UtilEigenGeometryOrientationVector() {
+        isometry_180 = isometry2dFromVector(vector_180);
+        isometry_135 = isometry2dFromVector(vector_135);
+        isometry_90 = isometry2dFromVector(vector_90);
+        isometry_45 = isometry2dFromVector(vector_45);
+        isometry0 = isometry2dFromVector(vector0);
+        isometry45 = isometry2dFromVector(vector45);
+        isometry90 = isometry2dFromVector(vector90);
+        isometry135 = isometry2dFromVector(vector135);
+        isometry180 = isometry2dFromVector(vector180);
+    };
 
     Eigen::Vector2d vector_180{-1., 0.};  // NOLINT
     Eigen::Vector2d vector_135{-1., -1.}; // NOLINT
     Eigen::Vector2d vector_90{0., -1.};   // NOLINT
     Eigen::Vector2d vector_45{1., -1.};   // NOLINT
-    Eigen::Vector2d vector0{1., 0};
-    Eigen::Vector2d vector45{1., 1.};
-    Eigen::Vector2d vector90{0., 1.};
-    Eigen::Vector2d vector135{-1., 1.};
-    Eigen::Vector2d vector180{-1., 0.};
+    Eigen::Vector2d vector0{1., 0};       // NOLINT
+    Eigen::Vector2d vector45{1., 1.};     // NOLINT
+    Eigen::Vector2d vector90{0., 1.};     // NOLINT
+    Eigen::Vector2d vector135{-1., 1.};   // NOLINT
+    Eigen::Vector2d vector180{-1., 0.};   // NOLINT
 
+    Eigen::Isometry2d isometry_180; // NOLINT
+    Eigen::Isometry2d isometry_135; // NOLINT
+    Eigen::Isometry2d isometry_90;  // NOLINT
+    Eigen::Isometry2d isometry_45;  // NOLINT
+    Eigen::Isometry2d isometry0;    // NOLINT
+    Eigen::Isometry2d isometry45;   // NOLINT
+    Eigen::Isometry2d isometry90;   // NOLINT
+    Eigen::Isometry2d isometry135;  // NOLINT
+    Eigen::Isometry2d isometry180;  // NOLINT
+};
+
+TEST_F(UtilEigenGeometryOrientationVector, isometry2dToAndFromVector) { // NOLINT
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromIsometry2d(isometry_180));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, yawFromIsometry2d(isometry_135));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, yawFromIsometry2d(isometry_90));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, yawFromIsometry2d(isometry_45));
+    EXPECT_DOUBLE_EQ(0., yawFromIsometry2d(isometry0));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, yawFromIsometry2d(isometry45));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, yawFromIsometry2d(isometry90));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, yawFromIsometry2d(isometry135));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromIsometry2d(isometry180));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_180)));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_135)));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_90)));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry_45)));
+    EXPECT_DOUBLE_EQ(0., yawFromVector(vectorFromIsometry2d(isometry0)));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry45)));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry90)));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry135)));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vectorFromIsometry2d(isometry180)));
+}
+
+TEST_F(UtilEigenGeometryOrientationVector, yawFromVector) { // NOLINT
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vector_180));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, yawFromVector(vector_135));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, yawFromVector(vector_90));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, yawFromVector(vector_45));
+    EXPECT_DOUBLE_EQ(0., yawFromVector(vector0));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, yawFromVector(vector45));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, yawFromVector(vector90));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, yawFromVector(vector135));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, yawFromVector(vector180));
+}
+
+TEST_F(UtilEigenGeometryOrientationVector, angleDifferenceIsometryToVector) { // NOLINT
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry_180, vector0));
+    EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, angleDifference(isometry_135, vector0));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(isometry_90, vector0));
+    EXPECT_DOUBLE_EQ(-1. / 4. * M_PI, angleDifference(isometry_45, vector0));
+    EXPECT_DOUBLE_EQ(0., angleDifference(isometry0, vector0));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, angleDifference(isometry45, vector0));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(isometry90, vector0));
+    EXPECT_DOUBLE_EQ(3. / 4. * M_PI, angleDifference(isometry135, vector0));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry180, vector0));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry_135, vector45));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, angleDifference(isometry90, vector45));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry0, vector_180));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(isometry0, vector_90));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(isometry0, vector90));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(isometry0, vector180));
+}
+
+TEST_F(UtilEigenGeometryOrientationVector, angleDifferenceVectorToVector) { // NOLINT
     EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector_180, vector0));
     EXPECT_DOUBLE_EQ(-3. / 4. * M_PI, angleDifference(vector_135, vector0));
     EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(vector_90, vector0));
@@ -131,6 +211,14 @@ TEST(UtilEigenGeometry, angleDifferenceVectorToVector) {
     EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(vector90, vector0));
     EXPECT_DOUBLE_EQ(3. / 4. * M_PI, angleDifference(vector135, vector0));
     EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector180, vector0));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector_135, vector45));
+    EXPECT_DOUBLE_EQ(1. / 4. * M_PI, angleDifference(vector90, vector45));
+
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector0, vector_180));
+    EXPECT_DOUBLE_EQ(2. / 4. * M_PI, angleDifference(vector0, vector_90));
+    EXPECT_DOUBLE_EQ(-2. / 4. * M_PI, angleDifference(vector0, vector90));
+    EXPECT_DOUBLE_EQ(-4. / 4. * M_PI, angleDifference(vector0, vector180));
 }
 
 class UtilEigenGeometryPolygons : public ::testing::Test {
@@ -148,7 +236,7 @@ protected:
     polygon_t poly02{p0, p1, p2}; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
 
-TEST_F(UtilEigenGeometryPolygons, angleDifferencePoseToPolygon) {
+TEST_F(UtilEigenGeometryPolygons, angleDifferencePoseToPolygon) { // NOLINT
 
     Eigen::Affine2d pose{Eigen::Affine2d::Identity()};
     pose.translation().setOnes();
@@ -158,7 +246,7 @@ TEST_F(UtilEigenGeometryPolygons, angleDifferencePoseToPolygon) {
     EXPECT_DOUBLE_EQ(M_PI / 4., angleDifference(pose, poly02));
 }
 
-TEST_F(UtilEigenGeometryPolygons, cosineSimilarityPoseToPolygon) {
+TEST_F(UtilEigenGeometryPolygons, cosineSimilarityPoseToPolygon) { // NOLINT
 
     Eigen::Affine2d pose{Eigen::Affine2d::Identity()};
     pose.translation().setOnes();
@@ -169,12 +257,12 @@ TEST_F(UtilEigenGeometryPolygons, cosineSimilarityPoseToPolygon) {
 }
 
 
-TEST_F(UtilEigenGeometryPolygons, getClosestId) {
+TEST_F(UtilEigenGeometryPolygons, getClosestId) { // NOLINT
     EXPECT_EQ(0ul, getClosestId(p0, poly02));
     EXPECT_EQ(2ul, getClosestId(Eigen::Vector2d{100., 100.}, poly02));
 }
 
-TEST_F(UtilEigenGeometryPolygons, lineStripOrientation) {
+TEST_F(UtilEigenGeometryPolygons, lineStripOrientation) { // NOLINT
 
     Eigen::Affine2d pose{Eigen::Affine2d::Identity()};
     pose.translation().setOnes();
@@ -183,19 +271,19 @@ TEST_F(UtilEigenGeometryPolygons, lineStripOrientation) {
     EXPECT_DOUBLE_EQ(0., lineStripOrientation(p0, p0));
 }
 
-TEST_F(UtilEigenGeometryPolygons, splitPolygonRight) {
+TEST_F(UtilEigenGeometryPolygons, splitPolygonRight) { // NOLINT
     polygon_t poly12new;
     splitPolygonRight(poly02, 0, poly12new);
     EXPECT_DOUBLE_EQ(poly12[0].x(), poly12new[0].x());
     EXPECT_DOUBLE_EQ(poly12[0].y(), poly12new[0].y());
 }
 
-TEST_F(UtilEigenGeometryPolygons, canSplitPolygonRight) {
+TEST_F(UtilEigenGeometryPolygons, canSplitPolygonRight) { // NOLINT
     EXPECT_TRUE(canSplitPolygonRight(poly02, 1));
     EXPECT_FALSE(canSplitPolygonRight(poly02, 2));
 }
 
-TEST_F(UtilEigenGeometryPolygons, SamplePolygon) {
+TEST_F(UtilEigenGeometryPolygons, SamplePolygon) { // NOLINT
     polygon_t sampled = addIntermediateSamplesToPolygon(poly02, 0.1);
     ASSERT_GT(sampled.size(), 1ul);
     for (size_t i = 1; i < sampled.size(); ++i) {

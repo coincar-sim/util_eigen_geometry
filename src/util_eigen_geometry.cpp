@@ -100,6 +100,15 @@ double angleDifference(const Eigen::Vector2d& targetVector, const Eigen::Vector2
     return normalizeAngleRadians(angleError);
 }
 
+double angleDifference(const Eigen::Affine2d& targetPose, const Eigen::Vector2d& sourceVector) {
+    assert(isIsometry(targetPose));
+    return angleDifference(Eigen::Isometry2d{targetPose.matrix()}, sourceVector);
+}
+
+double angleDifference(const Eigen::Isometry2d& targetPose, const Eigen::Vector2d& sourceVector) {
+    return angleDifference(yawFromIsometry2d(targetPose), yawFromVector(sourceVector));
+}
+
 double angleDifference(const Eigen::Affine2d& pose, const polygon_t& polygon) {
     assert(isIsometry(pose));
     return angleDifference(Eigen::Isometry2d{pose.matrix()}, polygon);
@@ -163,6 +172,16 @@ double cosineSimilarity(const Eigen::Isometry2d& pose, const polygon_t& polygon)
     return cosSim2;
 }
 
+Eigen::Isometry2d isometry2dFromVector(const Eigen::Vector2d& orientationVector) {
+    Eigen::Isometry2d isometry{Eigen::Isometry2d::Identity()};
+    return isometry.rotate(yawFromVector(orientationVector));
+}
+
+Eigen::Vector2d vectorFromIsometry2d(const Eigen::Isometry2d& pose) {
+    Eigen::Vector2d vector{Eigen::Vector2d::UnitX()};
+    return pose.rotation() * vector;
+}
+
 Eigen::Affine2d affine2dFromXYOfAffine3d(const Eigen::Affine3d& pose) {
     assert(isIsometry(pose));
     return isometry2dFromXYOfIsometry3d(Eigen::Isometry3d{pose.matrix()});
@@ -173,6 +192,10 @@ Eigen::Isometry2d isometry2dFromXYOfIsometry3d(const Eigen::Isometry3d& pose) {
     pose2d.linear() = pose.linear().topLeftCorner<2, 2>();
     pose2d.translation() = pose.translation().topRows<2>();
     return pose2d;
+}
+
+double yawFromVector(const Eigen::Vector2d& orientationVector) {
+    return normalizeAngleRadians(std::atan2(orientationVector.y(), orientationVector.x()));
 }
 
 double yawFromAffine2d(const Eigen::Affine2d& pose) {
